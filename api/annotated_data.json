@@ -1,0 +1,1135 @@
+[
+    {
+        "text": "The MSPN registers the measurement at the GO . The GO examines the application of the MSPN . The GO rejects the application of the MSPN or the GO confirmes the application of the MSPN . The GO assigns the MSPN . The GO informs the MSPO about the assignment of MSPN . The GO informs the MPO about the assignment of the MSPN . The GO informs the SP about the assignment of MSPN .",
+        "name": "Document Name",
+        "sentences": [
+            {
+                "tokens": [
+                    {
+                        "text": "The",
+                        "index_in_document": 0,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 0
+                    },
+                    {
+                        "text": "MSPN",
+                        "index_in_document": 1,
+                        "pos_tag": "NNP",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 0
+                    },
+                    {
+                        "text": "registers",
+                        "index_in_document": 2,
+                        "pos_tag": "VBZ",
+                        "bio_tag": "B-Activity",
+                        "sentence_index": 0
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 3,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Activity Data",
+                        "sentence_index": 0
+                    },
+                    {
+                        "text": "measurement",
+                        "index_in_document": 4,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 0
+                    },
+                    {
+                        "text": "at",
+                        "index_in_document": 5,
+                        "pos_tag": "IN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 0
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 6,
+                        "pos_tag": "DT",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 0
+                    },
+                    {
+                        "text": "GO",
+                        "index_in_document": 7,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 0
+                    },
+                    {
+                        "text": ".",
+                        "index_in_document": 8,
+                        "pos_tag": ".",
+                        "bio_tag": "O",
+                        "sentence_index": 0
+                    }
+                ]
+            },
+            {
+                "tokens": [
+                    {
+                        "text": "The",
+                        "index_in_document": 9,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 1
+                    },
+                    {
+                        "text": "GO",
+                        "index_in_document": 10,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 1
+                    },
+                    {
+                        "text": "examines",
+                        "index_in_document": 11,
+                        "pos_tag": "VBZ",
+                        "bio_tag": "B-Activity",
+                        "sentence_index": 1
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 12,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Activity Data",
+                        "sentence_index": 1
+                    },
+                    {
+                        "text": "application",
+                        "index_in_document": 13,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 1
+                    },
+                    {
+                        "text": "of",
+                        "index_in_document": 14,
+                        "pos_tag": "IN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 1
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 15,
+                        "pos_tag": "DT",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 1
+                    },
+                    {
+                        "text": "MSPN",
+                        "index_in_document": 16,
+                        "pos_tag": "NNP",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 1
+                    },
+                    {
+                        "text": ".",
+                        "index_in_document": 17,
+                        "pos_tag": ".",
+                        "bio_tag": "O",
+                        "sentence_index": 1
+                    }
+                ]
+            },
+            {
+                "tokens": [
+                    {
+                        "text": "The",
+                        "index_in_document": 18,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "GO",
+                        "index_in_document": 19,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "rejects",
+                        "index_in_document": 20,
+                        "pos_tag": "VBZ",
+                        "bio_tag": "B-Activity",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 21,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "application",
+                        "index_in_document": 22,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "of",
+                        "index_in_document": 23,
+                        "pos_tag": "IN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 24,
+                        "pos_tag": "DT",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "MSPN",
+                        "index_in_document": 25,
+                        "pos_tag": "NNP",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "or",
+                        "index_in_document": 26,
+                        "pos_tag": "CC",
+                        "bio_tag": "B-XOR Gateway",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 27,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "GO",
+                        "index_in_document": 28,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "confirmes",
+                        "index_in_document": 29,
+                        "pos_tag": "VBZ",
+                        "bio_tag": "B-Activity",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 30,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "application",
+                        "index_in_document": 31,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "of",
+                        "index_in_document": 32,
+                        "pos_tag": "IN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 33,
+                        "pos_tag": "DT",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": "MSPN",
+                        "index_in_document": 34,
+                        "pos_tag": "NNP",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 2
+                    },
+                    {
+                        "text": ".",
+                        "index_in_document": 35,
+                        "pos_tag": ".",
+                        "bio_tag": "O",
+                        "sentence_index": 2
+                    }
+                ]
+            },
+            {
+                "tokens": [
+                    {
+                        "text": "The",
+                        "index_in_document": 36,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 3
+                    },
+                    {
+                        "text": "GO",
+                        "index_in_document": 37,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 3
+                    },
+                    {
+                        "text": "assigns",
+                        "index_in_document": 38,
+                        "pos_tag": "VBZ",
+                        "bio_tag": "B-Activity",
+                        "sentence_index": 3
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 39,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Activity Data",
+                        "sentence_index": 3
+                    },
+                    {
+                        "text": "MSPN",
+                        "index_in_document": 40,
+                        "pos_tag": "NNP",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 3
+                    },
+                    {
+                        "text": ".",
+                        "index_in_document": 41,
+                        "pos_tag": ".",
+                        "bio_tag": "O",
+                        "sentence_index": 3
+                    }
+                ]
+            },
+            {
+                "tokens": [
+                    {
+                        "text": "The",
+                        "index_in_document": 42,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": "GO",
+                        "index_in_document": 43,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": "informs",
+                        "index_in_document": 44,
+                        "pos_tag": "VBZ",
+                        "bio_tag": "B-Activity",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 45,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": "MSPO",
+                        "index_in_document": 46,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": "about",
+                        "index_in_document": 47,
+                        "pos_tag": "IN",
+                        "bio_tag": "B-Activity Data",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 48,
+                        "pos_tag": "DT",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": "assignment",
+                        "index_in_document": 49,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": "of",
+                        "index_in_document": 50,
+                        "pos_tag": "IN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": "MSPN",
+                        "index_in_document": 51,
+                        "pos_tag": "NNP",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 4
+                    },
+                    {
+                        "text": ".",
+                        "index_in_document": 52,
+                        "pos_tag": ".",
+                        "bio_tag": "O",
+                        "sentence_index": 4
+                    }
+                ]
+            },
+            {
+                "tokens": [
+                    {
+                        "text": "The",
+                        "index_in_document": 53,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "GO",
+                        "index_in_document": 54,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "informs",
+                        "index_in_document": 55,
+                        "pos_tag": "VBZ",
+                        "bio_tag": "B-Activity",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 56,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "MPO",
+                        "index_in_document": 57,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "about",
+                        "index_in_document": 58,
+                        "pos_tag": "IN",
+                        "bio_tag": "B-Activity Data",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 59,
+                        "pos_tag": "DT",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "assignment",
+                        "index_in_document": 60,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "of",
+                        "index_in_document": 61,
+                        "pos_tag": "IN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 62,
+                        "pos_tag": "DT",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": "MSPN",
+                        "index_in_document": 63,
+                        "pos_tag": "NNP",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 5
+                    },
+                    {
+                        "text": ".",
+                        "index_in_document": 64,
+                        "pos_tag": ".",
+                        "bio_tag": "O",
+                        "sentence_index": 5
+                    }
+                ]
+            },
+            {
+                "tokens": [
+                    {
+                        "text": "The",
+                        "index_in_document": 65,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": "GO",
+                        "index_in_document": 66,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": "informs",
+                        "index_in_document": 67,
+                        "pos_tag": "VBZ",
+                        "bio_tag": "B-Activity",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 68,
+                        "pos_tag": "DT",
+                        "bio_tag": "B-Actor",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": "SP",
+                        "index_in_document": 69,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Actor",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": "about",
+                        "index_in_document": 70,
+                        "pos_tag": "IN",
+                        "bio_tag": "B-Activity Data",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": "the",
+                        "index_in_document": 71,
+                        "pos_tag": "DT",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": "assignment",
+                        "index_in_document": 72,
+                        "pos_tag": "NN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": "of",
+                        "index_in_document": 73,
+                        "pos_tag": "IN",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": "MSPN",
+                        "index_in_document": 74,
+                        "pos_tag": "NNP",
+                        "bio_tag": "I-Activity Data",
+                        "sentence_index": 6
+                    },
+                    {
+                        "text": ".",
+                        "index_in_document": 75,
+                        "pos_tag": ".",
+                        "bio_tag": "O",
+                        "sentence_index": 6
+                    }
+                ]
+            }
+        ],
+        "mentions": [
+            {
+                "tag": "Activity",
+                "sentence_index": 0,
+                "token_indices": [
+                    2
+                ]
+            },
+            {
+                "tag": "Activity Data",
+                "sentence_index": 0,
+                "token_indices": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 1,
+                "token_indices": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "tag": "Activity",
+                "sentence_index": 1,
+                "token_indices": [
+                    2
+                ]
+            },
+            {
+                "tag": "Activity Data",
+                "sentence_index": 1,
+                "token_indices": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 2,
+                "token_indices": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "tag": "Activity",
+                "sentence_index": 2,
+                "token_indices": [
+                    2
+                ]
+            },
+            {
+                "tag": "Activity Data",
+                "sentence_index": 2,
+                "token_indices": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "tag": "XOR Gateway",
+                "sentence_index": 2,
+                "token_indices": [
+                    8
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 2,
+                "token_indices": [
+                    9,
+                    10
+                ]
+            },
+            {
+                "tag": "Activity",
+                "sentence_index": 2,
+                "token_indices": [
+                    11
+                ]
+            },
+            {
+                "tag": "Activity Data",
+                "sentence_index": 2,
+                "token_indices": [
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 3,
+                "token_indices": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "tag": "Activity",
+                "sentence_index": 3,
+                "token_indices": [
+                    2
+                ]
+            },
+            {
+                "tag": "Activity Data",
+                "sentence_index": 3,
+                "token_indices": [
+                    3,
+                    4
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 4,
+                "token_indices": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "tag": "Activity",
+                "sentence_index": 4,
+                "token_indices": [
+                    2
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 4,
+                "token_indices": [
+                    3,
+                    4
+                ]
+            },
+            {
+                "tag": "Activity Data",
+                "sentence_index": 4,
+                "token_indices": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 5,
+                "token_indices": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "tag": "Activity",
+                "sentence_index": 5,
+                "token_indices": [
+                    2
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 5,
+                "token_indices": [
+                    3,
+                    4
+                ]
+            },
+            {
+                "tag": "Activity Data",
+                "sentence_index": 5,
+                "token_indices": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 6,
+                "token_indices": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "tag": "Activity",
+                "sentence_index": 6,
+                "token_indices": [
+                    2
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 6,
+                "token_indices": [
+                    3,
+                    4
+                ]
+            },
+            {
+                "tag": "Activity Data",
+                "sentence_index": 6,
+                "token_indices": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "tag": "Actor",
+                "sentence_index": 0,
+                "token_indices": [
+                    0,
+                    1
+                ]
+            }
+        ],
+        "entities": [
+            {
+                "mention_indices": [
+                    2,
+                    5,
+                    9,
+                    12,
+                    15,
+                    19,
+                    23
+                ]
+            },
+            {
+                "mention_indices": [
+                    4,
+                    7,
+                    11,
+                    14,
+                    22
+                ]
+            },
+            {
+                "mention_indices": [
+                    7,
+                    11,
+                    4
+                ]
+            },
+            {
+                "mention_indices": [
+                    17,
+                    25,
+                    21
+                ]
+            },
+            {
+                "mention_indices": [
+                    26,
+                    18,
+                    22
+                ]
+            },
+            {
+                "mention_indices": []
+            },
+            {
+                "mention_indices": [
+                    0
+                ]
+            },
+            {
+                "mention_indices": [
+                    1
+                ]
+            },
+            {
+                "mention_indices": [
+                    3
+                ]
+            },
+            {
+                "mention_indices": [
+                    6
+                ]
+            },
+            {
+                "mention_indices": [
+                    8
+                ]
+            },
+            {
+                "mention_indices": [
+                    10
+                ]
+            },
+            {
+                "mention_indices": [
+                    13
+                ]
+            },
+            {
+                "mention_indices": [
+                    16
+                ]
+            },
+            {
+                "mention_indices": [
+                    20
+                ]
+            },
+            {
+                "mention_indices": [
+                    24
+                ]
+            }
+        ],
+        "relations": [
+            {
+                "head": 6,
+                "tail": 7,
+                "tag": "uses",
+                "evidence": [
+                    0
+                ]
+            },
+            {
+                "head": 6,
+                "tail": 8,
+                "tag": "flow",
+                "evidence": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "head": 8,
+                "tail": 0,
+                "tag": "actor performer",
+                "evidence": [
+                    1
+                ]
+            },
+            {
+                "head": 8,
+                "tail": 1,
+                "tag": "uses",
+                "evidence": [
+                    1
+                ]
+            },
+            {
+                "head": 8,
+                "tail": 9,
+                "tag": "flow",
+                "evidence": [
+                    1,
+                    2
+                ]
+            },
+            {
+                "head": 9,
+                "tail": 0,
+                "tag": "actor performer",
+                "evidence": [
+                    2
+                ]
+            },
+            {
+                "head": 11,
+                "tail": 0,
+                "tag": "actor performer",
+                "evidence": [
+                    2
+                ]
+            },
+            {
+                "head": 9,
+                "tail": 1,
+                "tag": "uses",
+                "evidence": [
+                    2
+                ]
+            },
+            {
+                "head": 10,
+                "tail": 9,
+                "tag": "flow",
+                "evidence": [
+                    2
+                ]
+            },
+            {
+                "head": 9,
+                "tail": 0,
+                "tag": "actor recipient",
+                "evidence": [
+                    2
+                ]
+            },
+            {
+                "head": 10,
+                "tail": 11,
+                "tag": "flow",
+                "evidence": [
+                    2
+                ]
+            },
+            {
+                "head": 11,
+                "tail": 0,
+                "tag": "actor performer",
+                "evidence": [
+                    2
+                ]
+            },
+            {
+                "head": 11,
+                "tail": 1,
+                "tag": "uses",
+                "evidence": [
+                    2
+                ]
+            },
+            {
+                "head": 11,
+                "tail": 12,
+                "tag": "flow",
+                "evidence": [
+                    2,
+                    3
+                ]
+            },
+            {
+                "head": 12,
+                "tail": 0,
+                "tag": "actor performer",
+                "evidence": [
+                    3
+                ]
+            },
+            {
+                "head": 12,
+                "tail": 1,
+                "tag": "uses",
+                "evidence": [
+                    3
+                ]
+            },
+            {
+                "head": 12,
+                "tail": 13,
+                "tag": "flow",
+                "evidence": [
+                    3,
+                    4
+                ]
+            },
+            {
+                "head": 13,
+                "tail": 0,
+                "tag": "actor performer",
+                "evidence": [
+                    4
+                ]
+            },
+            {
+                "head": 13,
+                "tail": 3,
+                "tag": "actor recipient",
+                "evidence": [
+                    4
+                ]
+            },
+            {
+                "head": 13,
+                "tail": 4,
+                "tag": "uses",
+                "evidence": [
+                    4
+                ]
+            },
+            {
+                "head": 13,
+                "tail": 14,
+                "tag": "flow",
+                "evidence": [
+                    4,
+                    5
+                ]
+            },
+            {
+                "head": 14,
+                "tail": 0,
+                "tag": "actor performer",
+                "evidence": [
+                    5
+                ]
+            },
+            {
+                "head": 14,
+                "tail": 3,
+                "tag": "actor recipient",
+                "evidence": [
+                    5
+                ]
+            },
+            {
+                "head": 14,
+                "tail": 1,
+                "tag": "uses",
+                "evidence": [
+                    5
+                ]
+            },
+            {
+                "head": 14,
+                "tail": 15,
+                "tag": "flow",
+                "evidence": [
+                    5,
+                    6
+                ]
+            },
+            {
+                "head": 15,
+                "tail": 0,
+                "tag": "actor performer",
+                "evidence": [
+                    6
+                ]
+            },
+            {
+                "head": 15,
+                "tail": 3,
+                "tag": "actor recipient",
+                "evidence": [
+                    6
+                ]
+            },
+            {
+                "head": 15,
+                "tail": 4,
+                "tag": "uses",
+                "evidence": [
+                    6
+                ]
+            }
+        ]
+    }
+]
