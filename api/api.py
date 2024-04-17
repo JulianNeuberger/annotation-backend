@@ -4,7 +4,7 @@ import stanza
 from api.annotation_loader import read_annotated_documents_from_json
 
 from api.new_data.pet import PetDictExporter
-from api.utils import adjust_data_for_data_model, convert_stanza_to_dataclass, get_predictions_for_input, load_document, retrain_model, save_data_to_json
+from api.utils import adjust_data_for_data_model, convert_stanza_to_dataclass, convert_stanza_to_petclass, get_predictions_for_input, load_document, retrain_model, save_data_to_json
 from data import model
 
 app = Flask(__name__)
@@ -27,24 +27,13 @@ def annotate_text():
     text = data['text']
 
     doc = nlp(text)
-    dataclass_doc = convert_stanza_to_dataclass(doc)
+    dataclass_doc = convert_stanza_to_petclass(doc)
+
+    exporter = PetDictExporter()
 
     if option == 'NoAI':
-        return jsonify(dataclass_doc.to_json_serializable())
+        return jsonify(exporter.export_document(dataclass_doc))
     
-    elif option == 'BadAI':
-        result: model.Document = get_predictions_for_input(dataclass_doc, 'bad model')
-        
-        formatted_result = result.to_json_serializable()
-
-        return jsonify(formatted_result)
-    
-    elif option == 'AverageAI':
-        result: model.Document = get_predictions_for_input(dataclass_doc, 'average model')
-        
-        formatted_result = result.to_json_serializable()
-
-        return jsonify(formatted_result)
     
     else:
         result: model.Document = get_predictions_for_input(dataclass_doc, 'good model')

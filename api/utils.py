@@ -3,7 +3,7 @@ import os
 import typing
 import stanza
 from api.annotation_loader import read_annotated_documents_from_json
-from api.new_data.pet import NewPetFormatImporter
+from api.new_data.pet import NewPetFormatImporter, PetDocument, PetToken
 import data
 from data import model
 from data.loader import _read_entities_from_json, _read_mentions_from_json, _read_relations_from_json
@@ -42,6 +42,34 @@ def convert_stanza_to_dataclass(stanza_doc):
         mentions=[],
         entities=[],
         relations=[]
+    )
+
+
+def convert_stanza_to_petclass(stanza_doc):
+    tokens = []
+    token_index = 0
+
+    for i, stanza_sentence in enumerate(stanza_doc.sentences):
+        for stanza_token in stanza_sentence.tokens:
+            for word in stanza_token.words:
+                token = PetToken(
+                    text= word.text,
+                    index_in_document= token_index,
+                    pos_tag= word.xpos if word.xpos else '',
+                    sentence_index= i,
+                )
+                tokens.append(token)
+                token_index += 1
+
+    return PetDocument(
+        name="Test Doc", # Placeholder
+        text=stanza_doc.text,
+        id= 0, # Placeholder
+        category="",
+        tokens=tokens,
+        mentions=[],
+        entities=[],
+        relations=[],
     )
 
 
