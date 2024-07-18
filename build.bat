@@ -1,0 +1,1 @@
+call docker build . --tag julianneuberger/annotation-backend:latest --progress=plain

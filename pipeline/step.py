@@ -263,7 +263,6 @@ class CrfMentionEstimatorStep(PipelineStep):
 
     def _predict(self, test_documents: typing.List[data.Document]) -> typing.List[data.Document]:
         if self.estimator is None:
-            print('Here!')
             self.estimator = mentions.ConditionalRandomFieldsEstimator.load_model(self._name)
         mention_extraction_input = [d.copy(clear_mentions=True) for d in test_documents]
         return self.estimator.predict(mention_extraction_input)

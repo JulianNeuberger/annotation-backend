@@ -1,7 +1,6 @@
 import collections
 import functools
 import itertools
-import os
 import random
 import typing
 
@@ -16,33 +15,37 @@ import data
 from relations import sampler
 
 try:
-    nltk.data.find('wordnet')
+    nltk.data.find("wordnet")
 except LookupError:
-    nltk.download('wordnet')
+    nltk.download("wordnet")
 
 try:
-    nltk.data.find('omw-1.4')
+    nltk.data.find("omw-1.4")
 except LookupError:
-    nltk.download('omw-1.4')
+    nltk.download("omw-1.4")
 
 
 class CatBoostRelationEstimator:
-    def __init__(self,
-                 name: str,
-                 negative_sampling_rate: float,
-                 num_trees: int,
-                 context_size: int,
-                 use_pos_features: bool,
-                 use_embedding_features: bool,
-                 num_passes: int,
-                 verbose: bool,
-                 relation_tags: typing.List[str] = None,
-                 ner_tags: typing.List[str] = None,
-                 learning_rate: float = None,
-                 class_weights: typing.Dict[str, float] = None,
-                 depth: int = 8,
-                 seed: int = 42):
-        self._no_relation_tag = 'NO REL'
+    def __init__(
+        self,
+        name: str,
+        negative_sampling_rate: float,
+        num_trees: int,
+        context_size: int,
+        relation_tags: typing.List[str],
+        ner_tags: typing.List[str],
+        use_pos_features: bool,
+        use_embedding_features: bool,
+        num_passes: int,
+        verbose: bool,
+        learning_rate: float = None,
+        class_weights: typing.Dict[str, float] = None,
+        depth: int = 8,
+        seed: int = 42,
+        device: str = None,
+        device_ids: str = None,
+    ):
+        self._no_relation_tag = "NO REL"
         if class_weights is not None:
             class_weights[self._no_relation_tag] = 1.0
         self._class_weights = class_weights
@@ -63,32 +66,40 @@ class CatBoostRelationEstimator:
         self._embedding_size = 25
         self._embedder: typing.Optional = None
         if self._use_embedding_features:
-            self._embedder = downloader.load('glove-twitter-25')
-        self._nlp = spacy.load('en_core_web_sm')
+            self._embedder = downloader.load("glove-twitter-25")
+        self._nlp = spacy.load("en_core_web_sm")
+        self._device = device
+        self._device_ids = device_ids
 
     @staticmethod
     def load_model(config: dict):
         estimator = CatBoostRelationEstimator(**config)
 
-        num_passes = config['num_passes']
-        name = config['name']
+        num_passes = config["num_passes"]
+        name = config["name"]
         print(name)
         for pass_id in range(num_passes):
-            model_path_str = f'api/models/catboost/{name}.cbm'
+            model_path_str = f"api/models/catboost/{name}.cbm"
             estimator._model[pass_id] = catboost.CatBoostClassifier()
             estimator._model[pass_id].load_model(model_path_str)
         return estimator
 
-    def train(self, documents: typing.List[data.Document]) -> 'CatBoostRelationEstimator':
+    def train(
+        self, documents: typing.List[data.Document]
+    ) -> "CatBoostRelationEstimator":
         random.seed(self._seed)
         for pass_id in range(self._num_passes):
-            print(f'Training pass #{pass_id + 1}/{self._num_passes}')
-            self._model[pass_id] = catboost.CatBoostClassifier(iterations=self._num_trees,
-                                                               verbose=False,
-                                                               random_state=self._seed,
-                                                               depth=self._depth,
-                                                               class_weights=self._class_weights,
-                                                               learning_rate=self._learning_rate)
+            print(f"Training pass #{pass_id + 1}/{self._num_passes}")
+            self._model[pass_id] = catboost.CatBoostClassifier(
+                iterations=self._num_trees,
+                verbose=False,
+                random_state=self._seed,
+                depth=self._depth,
+                class_weights=self._class_weights,
+                learning_rate=self._learning_rate,
+                task_type=self._device,
+                devices=self._device_ids,
+            )
 
             samples = self._get_samples(documents, pass_id)
             xs = [x for x, _ in samples]
@@ -100,54 +111,61 @@ class CatBoostRelationEstimator:
                 num_cat_features += 2
             num_cat_features += self._context_size * 4
 
-            cat_features = list(range(cat_features_start, cat_features_start + num_cat_features))
-            self._model[pass_id].fit(xs, ys, cat_features=cat_features, verbose=self._verbose)
-
-            # Save the model 
-            model_save_path = f'api/models/catboost/{self._name}.cbm' 
-            os.makedirs(os.path.dirname(model_save_path), exist_ok=True)
-            self._model[pass_id].save_model(model_save_path)
-
-            # Load the model for verification
-            loaded_model = catboost.CatBoostClassifier()
-            loaded_model.load_model(model_save_path)
-
-            print("Model saved")
+            cat_features = list(
+                range(cat_features_start, cat_features_start + num_cat_features)
+            )
+            self._model[pass_id].fit(
+                xs, ys, cat_features=cat_features, verbose=self._verbose
+            )
 
         return self
 
-    def predict(self, documents: typing.List[data.Document]) -> typing.List[data.Document]:
+    def predict(
+        self, documents: typing.List[data.Document]
+    ) -> typing.List[data.Document]:
         assert all([len(d.entities) > 0 for d in documents])
         assert all([len(d.relations) == 0 for d in documents])
 
-
         last_pass = [d.copy(clear_relations=True) for d in documents]
         for pass_id in range(self._num_passes):
-            print(f'Prediction pass #{pass_id + 1}/{self._num_passes}')
+            print(f"Prediction pass #{pass_id + 1}/{self._num_passes}")
             predict_on_documents = [d.copy(clear_relations=True) for d in documents]
             last_pass = self._predict(pass_id, predict_on_documents, last_pass)
         return last_pass
 
-    def _predict(self, pass_id: int, documents: typing.List[data.Document],
-                 last_passes: typing.List[data.Document]) -> typing.List[data.Document]:
+    def _predict(
+        self,
+        pass_id: int,
+        documents: typing.List[data.Document],
+        last_passes: typing.List[data.Document],
+    ) -> typing.List[data.Document]:
         for document, last_pass in zip(documents, last_passes):
             spacy_sentences = self._get_spacy_sentences(document)
-            feature_builder = functools.partial(self._build_features,
-                                                document=document,
-                                                last_pass=last_pass,
-                                                spacy_sentences=spacy_sentences)
+            feature_builder = functools.partial(
+                self._build_features,
+                document=document,
+                last_pass=last_pass,
+                spacy_sentences=spacy_sentences,
+            )
             argument_indices: typing.List[typing.Tuple[int, int]] = []
-            for mention_index_pair in itertools.combinations(range(len(document.mentions)), 2):
+            for mention_index_pair in itertools.combinations(
+                range(len(document.mentions)), 2
+            ):
                 argument_indices.append(mention_index_pair)  # forward
                 argument_indices.append(mention_index_pair[::-1])  # backward
 
             xs = list(map(feature_builder, argument_indices))
             ys = self._model[pass_id].predict(xs)
-            document.relations = self._get_relations_from_predictions(argument_indices, ys, document)
+            document.relations = self._get_relations_from_predictions(
+                argument_indices, ys, document
+            )
+
         return documents
 
     @staticmethod
-    def _sub_sample_document_relations(document: data.Document, rate: float) -> data.Document:
+    def _sub_sample_document_relations(
+        document: data.Document, rate: float
+    ) -> data.Document:
         assert 0.0 <= rate <= 1.0
         ret = document.copy(clear_relations=True)
         for r in document.relations:
@@ -155,50 +173,54 @@ class CatBoostRelationEstimator:
                 ret.relations.append(r.copy())
         return ret
 
-    def _get_samples(self, documents: typing.List[data.Document],
-                     pass_id: int) -> typing.List[typing.Tuple[typing.List, str]]:
+    def _get_samples(
+        self, documents: typing.List[data.Document], pass_id: int
+    ) -> typing.List[typing.Tuple[typing.List, str]]:
         samples = []
         document: data.Document
         for document in documents:
+            if len(document.mentions) == 0:
+                continue
+            if len(document.entities) == 0:
+                continue
+            if len(document.relations) == 0:
+                continue
             spacy_sentences = self._get_spacy_sentences(document)
 
             if self._num_passes > 1:
                 sub_sampling_rate = pass_id / (self._num_passes - 1)
-                teacher_forced_last_pass = self._sub_sample_document_relations(document, sub_sampling_rate)
-                print(len(teacher_forced_last_pass.relations), len(document.relations))
+                teacher_forced_last_pass = self._sub_sample_document_relations(
+                    document, sub_sampling_rate
+                )
             else:
                 teacher_forced_last_pass = document
-            feature_builder = functools.partial(self._build_features,
-                                                document=document,
-                                                last_pass=teacher_forced_last_pass,
-                                                spacy_sentences=spacy_sentences)
+            feature_builder = functools.partial(
+                self._build_features,
+                document=document,
+                last_pass=teacher_forced_last_pass,
+                spacy_sentences=spacy_sentences,
+            )
 
             samples_in_document = 0
             for relation in document.relations:
-                head_entity = document.entities[relation.head_entity_index]
-                tail_entity = document.entities[relation.tail_entity_index]
-                mention_index_pairs = itertools.product(head_entity.mention_indices, tail_entity.mention_indices)
+                head_mention_index = relation.head_mention_index
+                tail_mention_index = relation.tail_mention_index
 
-                mention_index_pairs = [
-                    (h, t)
-                    for h, t in mention_index_pairs
-                    if document.mentions[h].sentence_index in relation.evidence
-                       and document.mentions[t].sentence_index in relation.evidence
-                ]
+                x = feature_builder((head_mention_index, tail_mention_index))
+                y = relation.tag
 
-                xs = list(map(feature_builder, mention_index_pairs))
-                ys = [relation.tag] * len(xs)
+                samples.append((x, y))
 
-                samples.extend(zip(xs, ys))
-
-                samples_in_document += len(ys)
+                samples_in_document += 1
 
             assert len(document.relations) <= samples_in_document
 
-            negative_samples = sampler.negative_sample(document,
-                                                       num_positive=samples_in_document,
-                                                       negative_rate=self._negative_rate,
-                                                       verbose=self._verbose)
+            negative_samples = sampler.negative_sample(
+                document,
+                num_positive=samples_in_document,
+                negative_rate=self._negative_rate,
+                verbose=self._verbose,
+            )
 
             xs = list(map(feature_builder, negative_samples))
             ys = [self._no_relation_tag] * len(xs)
@@ -207,40 +229,41 @@ class CatBoostRelationEstimator:
         random.shuffle(samples)
         return samples
 
-    def _get_relations_from_predictions(self, indices: typing.List[typing.Tuple[int, int]],
-                                        ys: np.ndarray, document: data.Document) -> typing.List[data.Relation]:
+    def _get_relations_from_predictions(
+        self,
+        indices: typing.List[typing.Tuple[int, int]],
+        ys: np.ndarray,
+        document: data.Document,
+    ) -> typing.List[data.Relation]:
         assert len(indices) == len(ys)
 
         relations = []
 
         for (head_mention_index, tail_mention_index), tag in zip(indices, ys):
             tag = tag[0]
-            assert type(tag) == str, f'Expected prediction to be string, got "{tag}" ({type(tag)})'
+            assert (
+                type(tag) == str
+            ), f'Expected prediction to be string, got "{tag}" ({type(tag)})'
             if tag == self._no_relation_tag:
                 # predicted no relation between the two
                 continue
 
             assert tag in self._target_tags
 
-            head_mention = document.mentions[head_mention_index]
-            tail_mention = document.mentions[tail_mention_index]
-
-            head_index = document.entity_index_for_mention(document.mentions[head_mention_index])
-            tail_index = document.entity_index_for_mention(document.mentions[tail_mention_index])
-
-            relations.append(data.Relation(
-                head_entity_index=head_index,
-                tail_entity_index=tail_index,
-                tag=tag,
-                evidence=list({head_mention.sentence_index, tail_mention.sentence_index})
-            ))
+            relations.append(
+                data.Relation(
+                    head_mention_index=head_mention_index,
+                    tail_mention_index=tail_mention_index,
+                    tag=tag,
+                )
+            )
 
         return relations
 
     def _get_spacy_sentences(self, document: data.Document) -> typing.List[tokens.Doc]:
         spacy_sentences: typing.List[tokens.Doc] = []
         batch = [
-            tokens.Doc(self._nlp.vocab, [t.text for t in sentence.tokens])
+            tokens.Doc(self._nlp.vocab, [t.text for t in sentence])
             for sentence in document.sentences
         ]
         doc: tokens.Doc
@@ -248,11 +271,13 @@ class CatBoostRelationEstimator:
             spacy_sentences.append(doc)
         return spacy_sentences
 
-    def _build_features(self,
-                        mention_index_pair: typing.Tuple[int, int],
-                        document: data.Document,
-                        last_pass: data.Document,
-                        spacy_sentences: typing.List[tokens.Doc]) -> typing.List:
+    def _build_features(
+        self,
+        mention_index_pair: typing.Tuple[int, int],
+        document: data.Document,
+        last_pass: data.Document,
+        spacy_sentences: typing.List[tokens.Doc],
+    ) -> typing.List:
         assert document.name == last_pass.name
 
         head_mention_index, tail_mention_index = mention_index_pair
@@ -280,18 +305,24 @@ class CatBoostRelationEstimator:
             else:
                 context.append(document.mentions[mention_index])
 
-        _, head_spacy = self.root_token_for_mention(head, document, spacy_sentences[head.sentence_index])
-        _, tail_spacy = self.root_token_for_mention(tail, document, spacy_sentences[tail.sentence_index])
+        head_sentence_index = head.get_sentence_index(document)
+        _, head_spacy = self.root_token_for_mention(
+            head, document, spacy_sentences[head_sentence_index]
+        )
+        tail_sentence_index = tail.get_sentence_index(document)
+        _, tail_spacy = self.root_token_for_mention(
+            tail, document, spacy_sentences[tail_sentence_index]
+        )
 
         features = [
             tail_mention_index - head_mention_index,
-            tail.sentence_index - head.sentence_index,
-            len(head.token_indices),
-            len(tail.token_indices),
+            tail_sentence_index - head_sentence_index,
+            len(head.token_document_indices),
+            len(tail.token_document_indices),
             head.ner_tag,
             tail.ner_tag,
             head_spacy.dep_,
-            tail_spacy.dep_
+            tail_spacy.dep_,
         ]
 
         if self._use_pos_features:
@@ -300,9 +331,7 @@ class CatBoostRelationEstimator:
                 tail_spacy.pos_,
             ]
 
-        features += [
-            m.ner_tag if m is not None else '' for m in context
-        ]
+        features += [m.ner_tag if m is not None else "" for m in context]
 
         # mentions_between = [
         #     document.mentions[i]
@@ -321,13 +350,21 @@ class CatBoostRelationEstimator:
         # ]
 
         if self._num_passes > 1:
-            head_relations = last_pass.get_relations_by_mention(head_mention_index, only_head=True)
-            head_incoming_relations = collections.Counter([r.tag for r in head_relations])
+            head_relations = last_pass.get_relations_by_mention(
+                head_mention_index, only_head=True
+            )
+            head_incoming_relations = collections.Counter(
+                [r.tag for r in head_relations]
+            )
             # if len(head_relations) > 0:
             #     print(head_relations)
 
-            tail_relations = last_pass.get_relations_by_mention(tail_mention_index, only_tail=True)
-            tail_incoming_relations = collections.Counter([r.tag for r in tail_relations])
+            tail_relations = last_pass.get_relations_by_mention(
+                tail_mention_index, only_tail=True
+            )
+            tail_incoming_relations = collections.Counter(
+                [r.tag for r in tail_relations]
+            )
             # if len(tail_relations) > 0:
             #     print(tail_relations)
 
@@ -336,33 +373,55 @@ class CatBoostRelationEstimator:
 
             features += [
                 *[head_incoming_relations[t] for t in self._target_tags],
-                *[tail_incoming_relations[t] for t in self._target_tags]
+                *[tail_incoming_relations[t] for t in self._target_tags],
             ]
 
         if self._use_embedding_features:
             features += [
                 *self.embed_tokens(head.get_tokens(document)),
-                *self.embed_tokens(tail.get_tokens(document))
+                *self.embed_tokens(tail.get_tokens(document)),
             ]
 
         return features
 
-    def root_token_for_mention(self, mention: data.Mention, document: data.Document,
-                               spacy_tokens: tokens.Doc) -> typing.Tuple[data.Token, tokens.Token]:
-        sentence = document.sentences[mention.sentence_index]
+    def root_token_for_mention(
+        self, mention: data.Mention, document: data.Document, spacy_tokens: tokens.Doc
+    ) -> typing.Tuple[data.Token, tokens.Token]:
+        sentence = document.sentences[mention.get_sentence_index(document)]
         spacy_token: tokens.Token
 
-        assert len(mention.token_indices) > 0
+        token_sentence_indices = [
+            t.index_in_sentence(document) for t in mention.get_tokens(document)
+        ]
+
+        assert len(token_sentence_indices) > 0
+        if len(spacy_tokens) <= max(token_sentence_indices):
+            print("spacy: ", [t.text for t in spacy_tokens])
+            print("org:   ", [t.text for t in sentence])
+        assert len(spacy_tokens) > max(token_sentence_indices), (
+            f'Mention "{mention.text(document)}" refers to tokens {token_sentence_indices}, '
+            f"but there are only {len(spacy_tokens)} tokens "
+            f"in sentence {spacy_tokens.text}, with original "
+            f"tokens {[t.text for t in sentence]}"
+        )
 
         mention_token_depths = {
-            mention_token_index: self._get_token_depth(spacy_tokens[token_index_in_sentence])
-            for mention_token_index, token_index_in_sentence in enumerate(mention.token_indices)
+            mention_token_index: self._get_token_depth(
+                spacy_tokens[token_index_in_sentence]
+            )
+            for mention_token_index, token_index_in_sentence in enumerate(
+                token_sentence_indices
+            )
         }
 
-        top_level_token_index: int = sorted(mention_token_depths, key=mention_token_depths.get)[0]
+        top_level_token_index: int = sorted(
+            mention_token_depths, key=mention_token_depths.get
+        )[0]
 
-        token = sentence.tokens[mention.token_indices[top_level_token_index]]
-        spacy_token = spacy_tokens[mention.token_indices[top_level_token_index]]
+        token = sentence[token_sentence_indices[top_level_token_index]]
+        spacy_token = spacy_tokens[
+            token_sentence_indices[top_level_token_index]
+        ]
 
         return token, spacy_token
 
@@ -378,22 +437,24 @@ class CatBoostRelationEstimator:
         words = [t.text for t in tokens]
         seq = np.array([self._embedder[w] for w in words if w in self._embedder])
         if seq.shape[0] == 0:
-            return np.ones(self._embedding_size) * 1.0 / self._embedding_size ** 0.5
+            return np.ones(self._embedding_size) * 1.0 / self._embedding_size**0.5
 
         seq = seq.sum(axis=0)
-        return seq / ((seq ** 2).sum() + 1e-100) ** 0.5
+        return seq / ((seq**2).sum() + 1e-100) ** 0.5
 
     def _ner_tag_to_one_hot(self, ner_tag: str) -> np.ndarray:
-        one_hot = np.zeros(len(self._ner_tags), )
+        one_hot = np.zeros(
+            len(self._ner_tags),
+        )
         one_hot[self._ner_tags.index(ner_tag.lower())] = 1.0
         return one_hot
 
     def _relation_tag_to_one_hot(self, relation_tag: str) -> np.ndarray:
         target = np.zeros((len(self._target_tags) + 1,))
         if relation_tag.lower() in self._target_tags:
-            target[self._target_tags.index(relation_tag)] = 1.
+            target[self._target_tags.index(relation_tag)] = 1.0
         else:
-            target[len(self._target_tags)] = 1.
+            target[len(self._target_tags)] = 1.0
         return target
 
     def _relation_tag_to_scalar(self, relation_tag: str) -> float:

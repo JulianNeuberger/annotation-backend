@@ -1,0 +1,13 @@
+flask==3.0.3
+flask-cors==4.0.0
+stanza==1.8.1
+nltk==3.8.1
+en-coreference-web-trf @ https://github.com/explosion/spacy-experimental/releases/download/v0.6.1/en_coreference_web_trf-3.4.0a2-py3-none-any.whl
+spacy-experimental==0.6.1
+catboost==1.1
+optuna==3.1.0
+pandas==2.2.2
+python-crfsuite==0.9.9
+scipy==1.10.1
+scikit-learn==1.4.2
+gensim==4.3.2
